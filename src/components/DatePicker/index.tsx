@@ -9,7 +9,9 @@ export default function DatePicker({ label, value, handleValue }) {
         <RNDateTimePicker
           style={{ alignContent: 'flex-start', width: 128 }}
           value={value}
-          onChange={handleValue}
+          onChange={(event, selectedDate) => {
+            handleValue(selectedDate || value);
+          }}
         />
       </View>
     </>
