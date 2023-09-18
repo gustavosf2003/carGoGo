@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 
-import { router } from 'expo-router';
+import { useRouter } from 'expo-router';
 import { useForm, Controller } from 'react-hook-form';
 import {
   Keyboard,
@@ -19,6 +19,7 @@ import { findCar } from '@/services/cars';
 export default function FindCarForm() {
   const [pickUp, setPickUp] = useState(new Date());
   const [dropOff, setDropOff] = useState(new Date());
+  const router = useRouter();
 
   const { control, handleSubmit, setError, setFocus } = useForm({
     mode: 'onChange',
@@ -27,7 +28,7 @@ export default function FindCarForm() {
 
   const goToCarsPage = useCallback(() => {
     router.push(ROUTE_NAMES.CARS);
-  }, []);
+  }, [router]);
 
   const onFindCarSubmit = handleSubmit(async (formData) => {
     try {

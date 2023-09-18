@@ -1,26 +1,36 @@
 import { useEffect, useState } from 'react';
 
+import { useLocalSearchParams } from 'expo-router';
 import { ScrollView, View } from 'react-native';
 
 import FiltersList from '@/components/FiltersList';
 import ResultsLayout from '@/components/Layout/ResultsLayout';
-
-import VehicleCard from '../components/VehicleCard/index';
+import VehicleCard from '@/components/VehicleCard';
+import findCarService from '@/services/cars';
+import type { VehicleType } from '@/types/vehicles';
 
 const SORT_VALUES = ['PRICE', 'RATING'];
 
-const cars = [0, 1, 2, 3, 4, 5, 6, 7, 8];
-
 export default function Cars() {
   const [sortBy, setSortBy] = useState(SORT_VALUES[0]);
-  const [carsList, setCarsList] = useState(cars);
+  const [carsList, setCarsList] = useState<VehicleType[]>([]);
+  const { getCars } = findCarService;
+  const params = useLocalSearchParams();
 
   useEffect(() => {
-    setCarsList((prevCarsList) => {
+    async function getSearchedCarsList() {
+      const cars = await getCars();
+      setCarsList(cars);
+    }
+    getSearchedCarsList();
+  }, [getCars, params]);
+
+  useEffect(() => {
+    setCarsList((prev) => {
       if (sortBy === SORT_VALUES[0]) {
-        return [...prevCarsList].sort((a, b) => b - a);
+        return prev.sort((a, b) => a.name.localeCompare(b.name)); // Ascending order
       } else {
-        return [...prevCarsList].sort((a, b) => a - b);
+        return prev.sort((a, b) => a.price - b.price); // Descending order
       }
     });
   }, [sortBy]);
@@ -30,8 +40,8 @@ export default function Cars() {
       <FiltersList actualSort={sortBy} handleSource={setSortBy} sortValues={SORT_VALUES} />
       <ScrollView>
         <View className="flex flex-col gap-4 pt-6 mx-4 pb-80">
-          {carsList.map((_, index) => (
-            <VehicleCard key={index} />
+          {carsList.map((item: VehicleType) => (
+            <VehicleCard key={item.id} {...item} />
           ))}
         </View>
       </ScrollView>
