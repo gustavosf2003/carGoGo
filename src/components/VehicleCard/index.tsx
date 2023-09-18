@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { useLocalSearchParams } from 'expo-router';
 import { View, Text, TouchableOpacity, Alert, Image } from 'react-native';
 
 import { VehicleType } from '@/types/vehicles';
@@ -20,6 +21,8 @@ function handleRentVehicle() {
 }
 
 const VehicleCard = ({ ...vehicle }: VehicleType) => {
+  const params = useLocalSearchParams();
+
   return (
     <TouchableOpacity
       onPress={() => handleRentVehicle()}
@@ -46,7 +49,7 @@ const VehicleCard = ({ ...vehicle }: VehicleType) => {
         ))}
       </View>
       <View className="my-2">
-        <Text>Stockholm airport</Text>
+        <Text>{params.locationName} airport</Text>
         <Text className="text-xs text-gray-800">{vehicle.location.type}</Text>
       </View>
       <View className="" />

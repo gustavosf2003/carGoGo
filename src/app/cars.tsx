@@ -9,7 +9,7 @@ import VehicleCard from '@/components/VehicleCard';
 import findCarService from '@/services/cars';
 import type { VehicleType } from '@/types/vehicles';
 
-const SORT_VALUES = ['PRICE', 'RATING'];
+const SORT_VALUES = ['Price', 'Rating'];
 
 export default function Cars() {
   const [sortBy, setSortBy] = useState(SORT_VALUES[0]);

@@ -21,7 +21,7 @@ const FiltersList = ({ actualSort, sortValues, handleSource }) => {
             {sortValues.map((value) => (
               <MenuOption key={value} onSelect={() => handleSource(value)}>
                 <View className="flex flex-row items-center py-1.5">
-                  <Text className="ml-3 text-gray-700 mr-2.5">hey</Text>
+                  <Text className="ml-3 text-gray-700 mr-2.5">{value}</Text>
                   {actualSort === value && <Feather name="check" size={18} color="green" />}
                 </View>
               </MenuOption>
