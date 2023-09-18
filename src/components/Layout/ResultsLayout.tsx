@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Feather } from '@expo/vector-icons';
 import clsx from 'clsx';
-import { router } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -14,11 +14,20 @@ interface LayoutProps {
   showBottomBar?: boolean;
 }
 
+function getParsedDate(date) {
+  const parsedDate = new Date(date);
+  const day = parsedDate.getDate();
+  const month = parsedDate.toLocaleString('default', { month: 'short' });
+
+  return `${day} ${month}`;
+}
+
 export default function ResultsLayout({
   children,
   customClassName,
   showBottomBar = true,
 }: LayoutProps) {
+  const params = useLocalSearchParams();
   return (
     <View className={clsx('flex justify-between  h-full bg-white', customClassName)}>
       <View>
@@ -28,8 +37,12 @@ export default function ResultsLayout({
               <Feather name="chevron-left" color="white" size={28} />
             </TouchableOpacity>
             <View>
-              <Text className="text-base font-bold text-center text-white">Lisbon</Text>
-              <Text className="text-xs text-center text-white">19 Sep - 28 Sep</Text>
+              <Text className="text-base font-bold text-center text-white">
+                {params.locationName}
+              </Text>
+              <Text className="text-xs text-center text-white">
+                {getParsedDate(params.pickUpDate)} - {getParsedDate(params.dropOffDate)}
+              </Text>
             </View>
           </View>
         </SafeAreaView>

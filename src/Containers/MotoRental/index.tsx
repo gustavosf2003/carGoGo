@@ -1,9 +1,9 @@
-import { View, Text } from 'react-native';
+import { Text, ScrollView } from 'react-native';
 
 export default function MotoRental() {
   return (
-    <View>
-      <Text>Moto rental</Text>
-    </View>
+    <ScrollView>
+      <Text>Motorcycles</Text>
+    </ScrollView>
   );
 }

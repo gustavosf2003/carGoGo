@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 
-import { router } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useForm, Controller } from 'react-hook-form';
 import {
   Keyboard,
@@ -19,15 +19,25 @@ import { findCar } from '@/services/cars';
 export default function FindCarForm() {
   const [pickUp, setPickUp] = useState(new Date());
   const [dropOff, setDropOff] = useState(new Date());
-
-  const { control, handleSubmit, setError, setFocus } = useForm({
+  const router = useRouter();
+  const params = useLocalSearchParams();
+  const { control, watch, handleSubmit, setError, setFocus } = useForm({
     mode: 'onChange',
     defaultValues: { carLocation: '', pickUp: pickUp, dropOff: dropOff },
   });
 
+  const {
+    locationName = watch('carLocation'),
+    pickUpDate = watch('pickUp'),
+    dropOffDate = watch('dropOff'),
+  } = params;
+
   const goToCarsPage = useCallback(() => {
-    router.push(ROUTE_NAMES.CARS);
-  }, []);
+    router.push({
+      pathname: ROUTE_NAMES.CARS,
+      params: { locationName: locationName, pickUpDate: pickUpDate, dropOffDate: dropOffDate },
+    });
+  }, [dropOffDate, locationName, pickUpDate, router]);
 
   const onFindCarSubmit = handleSubmit(async (formData) => {
     try {
