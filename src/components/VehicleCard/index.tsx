@@ -12,7 +12,6 @@ function handleRentVehicle() {
     [
       {
         text: 'Close',
-        onPress: () => console.log('No Pressed'),
         style: 'cancel',
       },
     ],

@@ -28,7 +28,6 @@ export default function ResultsLayout({
   showBottomBar = true,
 }: LayoutProps) {
   const params = useLocalSearchParams();
-  console.log(params);
   return (
     <View className={clsx('flex justify-between  h-full bg-white', customClassName)}>
       <View>
